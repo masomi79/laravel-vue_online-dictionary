@@ -4,6 +4,7 @@
       <input v-model="keyword" type="text" placeholder="buscar en el diccionario / diccionario ra pliki saks">
       <button v-on:click="searchWord" type="submit"><img src="/miskito2/public/img/search.png" alt=""></button>
       <div id="topResultsArea">
+        <p>{{ keyword }}</p>
         <ul>
           <li v-for="(words, i) in results" :key="i" v-if="results.length">
             <span id="searchedWord">
@@ -14,17 +15,17 @@
             en {{  tarLan }}
             <ul id="wordsList">
               <li v-for="(meaning, j) in words.meanings" :key="j" v-if="words.meanings">
-                <span>{{meaning.spanishWord}}{{meaning.miskitoWord}}</span>
+                <span v-on:click="showWordDetail(meaning.id)">{{meaning.spanishWord}}{{meaning.miskitoWord}}</span>
+
               </li>
             </ul>
           </li>
         </ul>
       </div>
+      <div id="topContentsArea">
+        <About />
+      </div>
     </div>
-    <div id="topContentsArea">
-      <About />
-    </div>  
-
   </div>
 </template>
 
@@ -39,10 +40,18 @@
         keyword: "",
         results: "",
         hoge: "",
-        tarLan: "español"
+        tarLan: "español",
+        link: "http://miskito.org",
+        counter: ""
       }
     },
     methods:{
+      increase: function(step, event){
+        this.counter += step
+      },
+      showWordDetail: function(id){
+        console.log(id)
+      },
       // 検索
       async searchWord(){
         const data = {
@@ -66,11 +75,6 @@
           this.tarLan = "miskito"
         }
         this.About = false
-      }
-    },
-    computed:{
-      function(){
-        console.log('umco')
       }
     }
   }
